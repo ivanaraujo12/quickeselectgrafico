@@ -48,7 +48,7 @@ def selectionsort(data):
     
     return data
 
-data_size = 10000
+data_size = 1000
 
 data_sorted = generate_data(data_size, sorted=True)
 data_partially_sorted = generate_data(data_size, partially_sorted=True)
@@ -114,3 +114,33 @@ def plot_progress(arr):
 data = generate_data(100)
 quicksort_with_progress(data, 0, len(data) - 1)
 plot_progress(data)
+
+def selectionsort_with_progress(arr, low, high):
+    if low < high:
+        pivot_index = partition(arr, low, high)
+        selectionsort_with_progress(arr, low, pivot_index - 1)
+        selectionsort_with_progress(arr, pivot_index + 1, high)
+
+def partition(arr, low, high):
+    pivot = arr[high]
+    i = low - 1
+    
+    for j in range(low, high):
+        if arr[j] < pivot:
+            i += 1
+            arr[i], arr[j] = arr[j], arr[i]
+    
+    arr[i + 1], arr[high] = arr[high], arr[i + 1]
+    return i + 1
+
+def plot_progress(arr):
+    plt.bar(range(len(arr)), arr)
+    plt.xlabel('Index')
+    plt.ylabel('Value')
+    plt.title('selectionsort Progress')
+    plt.show()
+
+data = generate_data(100)
+selectionsort_with_progress(data, 0, len(data) - 1)
+plot_progress(data)
+
